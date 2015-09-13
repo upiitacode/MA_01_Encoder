@@ -1,6 +1,7 @@
 #include "stm32f30x.h"                  // Device header
 #include "serial_stdio.h"
 #include "retarget_stm32f3.h"
+#include "LCD.h"
 #include <string.h>
 /*Led PB13, Button PC13*/
 
@@ -9,6 +10,7 @@ void led_init(void);
 
 Serial_t USART1_Serial={USART1_getChar,USART1_sendChar};
 Serial_t USART2_Serial={USART2_getChar,USART2_sendChar};
+Serial_t LCD_Serial = {NULL, lcd_sendChar};
 
 char mybf[80];/*Input buffer*/
 char wordBuffer[80];
@@ -17,13 +19,18 @@ int main(){
 	int lineCounter=1;
 	led_init();
 	USART2_init(9600);
+	lcd_init();
+	
 	serial_puts(USART2_Serial,"\nSystem ready\n");
+	serial_puts(LCD_Serial,"\fSystem ready\n");
+
 	while(1){
 		serial_printf(USART2_Serial,"%d$ ",lineCounter);
 		serial_gets(USART2_Serial,mybf,80);
 		serial_printf(USART2_Serial,"%s\n",mybf);
 		if(sscanf(mybf,"%s",wordBuffer) > 0){
 			serial_printf(USART2_Serial,"word: %s\n",wordBuffer);
+			serial_printf(LCD_Serial,"\fword: %s\n",wordBuffer);
 			serial_printf(USART2_Serial,"characters: %d\n",strlen(wordBuffer));
 		}
 		lineCounter++;
