@@ -4,7 +4,7 @@ SOURCE_DIRS:=  device/source ../source ../STM32F30x_StdPeriph_Driver/src ../reta
 #All the dtandard peripherial library files
 SPL_FILES:= $(notdir $(wildcard ../STM32F30x_StdPeriph_Driver/src/*.c ))
 #the C files to compile
-CFILES:= system_stm32f30x.c main.c $(SPL_FILES) retarget_stm32f3.c serial_stdio.c LCD.c LCD_stm32f3.c window_manager.c myWindows.c encoder.c myEncoder.c 
+CFILES:= system_stm32f30x.c main.c $(SPL_FILES) retarget_stm32f3.c serial_stdio.c LCD.c LCD_stm32f3.c window_manager.c myWindows.c encoder.c myEncoder.c myEncoder_stm32f3.c
 #the assembly files assemble
 ASM_FILES:= startup_stm32f302x8.S
 #the target microcontroller
