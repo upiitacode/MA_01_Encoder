@@ -4,6 +4,9 @@
 #include "window_manager.h"
 #include "myWindows.h"
 #include <string.h>
+#include "myEncoder.h"
+#include "encoder.h"
+
 /*Led PB13, Button PC13*/
 
 void delay_ms(int delay_time);
@@ -22,6 +25,10 @@ int main(){
 	int lastStateButtonB = 1;
 	int newStateButtonA = 1;
 	int newStateButtonB = 1;
+	int lastEncoderVal = 0;
+	int newEncoderVal = 0;
+	
+	encoder_handle myEncoder = getMyEncoderHandle();
 	
 	led_init();
 	buttons_init();
@@ -45,7 +52,12 @@ int main(){
 		lastStateButtonA =  newStateButtonA;
 		lastStateButtonB =  newStateButtonB;
 		
-		delay_ms(0x0CFFF);
+		newEncoderVal = encoder_getPosition(myEncoder); 
+		if(newEncoderVal != lastEncoderVal){
+			window_postEvent( WINDOW_EVENT_ENCODER_CHANGED);
+		}
+		lastEncoderVal = newEncoderVal;
+		delay_ms(0x0FFF);
 	}
 	return 0;
 }

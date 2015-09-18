@@ -15,6 +15,7 @@ extern "C" {
 #define WINDOW_EVENT_BUTTON_A 2
 #define WINDOW_EVENT_BUTTON_B 3
 #define WINDOW_EVENT_BUTTON_C 4
+#define WINDOW_EVENT_ENCODER_CHANGED 5
 
 	void myWindowInit(void);
 	
