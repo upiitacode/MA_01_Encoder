@@ -1,1 +1,0 @@
-/home/linx/Documents/myCode/C/utils/windowSystem/include/window_manager.h
