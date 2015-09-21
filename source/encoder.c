@@ -54,7 +54,7 @@ int encoder_getPosition(encoder_handle eHandle){
 	return  pEncoder->position;
 }
 
-void encoder_setCallback(encoder_handle eHandle, void (*onChangeCallback)(encoder_handle)){
+void encoder_setOnChangeCallback(encoder_handle eHandle, void (*onChangeCallback)(encoder_handle)){
 	encoder_t* pEncoder = eHandle;
 	pEncoder->onChangeCallback = onChangeCallback;
 }
@@ -68,22 +68,22 @@ void encoder_postEvent(encoder_handle eHandle, int stateA, int stateB){
 		if((stateA == 0) && (stateB == 0)){
 			if(event == NEGEDGE_A){
 				dir = DIR_POSITIVE;
-				if(pEncoder->onChangeCallback != NULL) 
-					pEncoder->onChangeCallback(eHandle);
 			}
 			else if(event == NEGEDGE_B){
 				dir = DIR_NEGATIVE;
-				if(pEncoder->onChangeCallback != NULL) 
-					pEncoder->onChangeCallback(eHandle);
 			}
 		}
 	}else if((stateA == 1) && (stateB == 1)){
 		if((event == POSEDGE_A) && (dir == DIR_POSITIVE)){
 			pEncoder->position++;
 			dir = DIR_NONE;	
+			if(pEncoder->onChangeCallback != NULL) 
+					pEncoder->onChangeCallback(eHandle);
 		}else if((event == POSEDGE_B) && (dir == DIR_NEGATIVE)){
 			pEncoder->position--;
 			dir = DIR_NONE;
+			if(pEncoder->onChangeCallback != NULL) 
+					pEncoder->onChangeCallback(eHandle);
 		}else if(event != NO_EDGE){
 			dir = DIR_NONE;
 		}
