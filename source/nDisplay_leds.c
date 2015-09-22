@@ -21,10 +21,18 @@ nDisplay_handle getLedDisplayHandle(void){
 }
 
 static void leds_hw_init(void){
-	USART2_init(9600);
-	serial_puts(USART2_Serial,"\nSystem ready\n");
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+	
+	GPIO_InitTypeDef myGPIO;
+	GPIO_StructInit(&myGPIO);
+	myGPIO.GPIO_Pin = GPIO_Pin_15 | GPIO_Pin_14 |GPIO_Pin_13 | GPIO_Pin_12 |
+			GPIO_Pin_11 | GPIO_Pin_10 | GPIO_Pin_9 | GPIO_Pin_8;
+	myGPIO.GPIO_Mode = GPIO_Mode_OUT;
+	myGPIO.GPIO_OType = GPIO_OType_PP;
+	GPIO_Init(GPIOB, &myGPIO);
 }
 
 static void leds_output(int val){
-	serial_printf(USART2_Serial,"\nDisplay: %d\n", val);
+	int outputByte = (val & 0xFF);
+	GPIO_Write(GPIOB, (outputByte << 8));
 }
